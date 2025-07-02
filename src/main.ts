@@ -1,12 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard'; // adjust path if needed
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { JwtAuthGuard } from './auth/jwt-auth.guard'; // optional if using global guard
 import { Reflector } from '@nestjs/core';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Apply global JWT guard
+  // Swagger Config
+  const config = new DocumentBuilder()
+    .setTitle('Silent Auction API')
+    .setDescription('API for mobile app')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+  // Optional: Global JWT guard
   const reflector = app.get(Reflector);
   app.useGlobalGuards(new JwtAuthGuard(reflector));
 

@@ -7,7 +7,7 @@ import { BidsModule } from './bids/bids.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/silent-auction'), // Replace with your DB URI
+    MongooseModule.forRoot('mongodb://localhost:27017/silent-auction'), // Replace with your DB URI
     AuthModule,
     UsersModule,
     ItemsModule,
